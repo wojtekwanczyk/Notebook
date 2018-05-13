@@ -7,19 +7,10 @@ import java.util.List;
 public class Brudnopis {
     private List<String> snapShots;
     private Integer nr = 0;
-    private Integer undoCount = 0;
+    private int undoCount = 0;
 
     Brudnopis() {
         snapShots = Arrays.asList("", "", "", "", "", "", "", "", "", "");
-        //snapShots.add("");
-        //snapShots.add("");
-        //snapShots.add("");
-    }
-
-    public void wypisz() {
-        System.out.println("0: " + snapShots.get(0));
-        System.out.println("1: " + snapShots.get(1));
-        System.out.println("2: " + snapShots.get(2));
     }
 
     public String getState() {
@@ -33,7 +24,13 @@ public class Brudnopis {
     }
 
     public void prevState() {
+        if(undoCount == 9) {
+            System.out.println("Cannot UNDO anymore!\n");
+            return;
+        }
         nr = (nr - 1) % 10;
+        if(nr == -1)
+            nr = 9;
         undoCount++;
     }
 
@@ -41,6 +38,8 @@ public class Brudnopis {
         if(undoCount > 0){
             nr = (nr + 1) % 10;
             undoCount--;
+        }else{
+            System.out.println("Cannot REDO anymore!\n");
         }
     }
 }

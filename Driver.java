@@ -2,6 +2,8 @@ package com;
 
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class Driver {
     private Brudnopis brudnopis = new Brudnopis();
     private boolean notify = false;
@@ -14,6 +16,10 @@ public class Driver {
     public void save() {
         Scanner scanner = new Scanner(System.in);
         String continuation = scanner.nextLine();
+
+        if(continuation.equals("q")){
+            exit(0);
+        }
 
         String currentState = brudnopis.getState();
 
@@ -30,8 +36,14 @@ public class Driver {
         notify = true;
     }
 
-    public void returnToPreviousState() {
+    public String returnToPreviousState() {
         brudnopis.prevState();
+        return brudnopis.getState();
+    }
+
+    public String nextState() {
+        brudnopis.nextState();
+        return brudnopis.getState();
     }
 
     public void currentState() {
