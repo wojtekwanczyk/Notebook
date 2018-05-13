@@ -4,68 +4,46 @@ import java.util.Scanner;
 
 import static java.lang.System.exit;
 
-public class Driver {
+class Driver {
     private Brudnopis brudnopis = new Brudnopis();
-    private boolean notify = false;
+    private Scanner scanner = new Scanner(System.in);
 
-    Driver() {
-        Thread t = new Thread(new SaveLoop());
-        t.start();
-    }
+    void update() {
 
-    public void save() {
-        Scanner scanner = new Scanner(System.in);
-        String continuation = scanner.nextLine();
+        String currentState = brudnopis.getState();
+        StringBuilder builder = new StringBuilder();
+        builder.append(currentState);
+        String next;
 
-        if(continuation.equals("q")){
+        next = scanner.nextLine();
+
+        if(next.equals("q")){
             exit(0);
         }
 
-        String currentState = brudnopis.getState();
-
-        StringBuilder builder = new StringBuilder();
-        builder.append(currentState);
-
         builder.append("\n");
-        builder.append(continuation);
+        builder.append(next);
 
-        String newstr = builder.toString();
+        String newStr = builder.toString();
 
-        brudnopis.newState(newstr);
-
-        notify = true;
+        brudnopis.newState(newStr);
     }
 
-    public String returnToPreviousState() {
+
+    String returnToPreviousState() {
         brudnopis.prevState();
         return brudnopis.getState();
     }
 
-    public String nextState() {
+    String nextState() {
         brudnopis.nextState();
         return brudnopis.getState();
     }
 
-    public void currentState() {
+    void currentState() {
         System.out.println(brudnopis.getState());
     }
 
-    class SaveLoop implements Runnable {
-        @Override
-        public void run() {
-            while (true) {
-                if(notify) {
-                    notify = false;
-                    //String str = new String(brudnopis.getState(1));
-                    //brudnopis.changeState(0, str);
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    System.out.println("InterruptedException occurred");
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+
+
 }
